@@ -1,53 +1,54 @@
-function encriptar(){
-    
-    var frase = document.getElementById("textoEncriptado").value.toLowerCase();
+var textareaOutput = document.getElementById("textareaOutput");
 
-    // i = Tomar letras mayusculas y minusculas 
-    // m = Tomar multiples lineas
-    // g = Tomar toda la linea o la oracion
+document.getElementById ("textareaInput").value = "";
 
-    var textoEncriptado = frase.replace(/e/img, "enter");
-    var textoEncriptado = textoEncriptado.replace(/o/img, "ober");
-    var textoEncriptado = textoEncriptado.replace(/i/img, "imes");
-    var textoEncriptado = textoEncriptado.replace(/a/img, "ai");
-    var textoEncriptado = textoEncriptado.replace(/u/img, "ufat");
+var mensaje = "";
 
-    document.getElementById("textoDesencriptado").innerHTML = textoEncriptado
+var btnEncriptar = document.getElementById("btnEncriptar");   
+var btnDesencriptar = document.getElementById("btnDesencriptar");
+var btnCopiar = document.getElementById("btnCopiar");
 
-    //Momento de dar encriptar, mostrar boton Copiar
-    document.getElementById("botonCopiar").style.display = "show";
-    document.getElementById("botonCopiar").style.display = "inherit";
-
+function encriptar (){
+    var textareaInput = document.getElementById ("textareaInput").value;
+    mensaje = encriptarTexto(textareaInput);
+    document.querySelector(".textareaOutput").value = mensaje;
+    document.getElementById("outputContainer").style.visibility = "visible";
+    document.getElementById("textos").style.display = "none";    
+    document.querySelector(".buttonRight").style.display = "flex";
+    document.getElementById("sectionRight").style.backgroundImage = "none"; 
 }
 
-function desencriptar(){
-    
-    var frase = document.getElementById("textoDesencriptado").value.toLowerCase();
-
-    // i = Tomar letras mayusculas y minusculas 
-    // m = Tomar multiples lineas
-    // g = Tomar toda la linea o la oracion
-
-    var textoEncriptado = frase.replace(/enter/img, "e");
-    var textoEncriptado = textoEncriptado.replace(/ober/img, "o");
-    var textoEncriptado = textoEncriptado.replace(/imes/img, "i");
-    var textoEncriptado = textoEncriptado.replace(/ai/img, "a");
-    var textoEncriptado = textoEncriptado.replace(/ufat/img, "u");
-
-    document.getElementById("textoDesencriptado").innerHTML = textoEncriptado
-
+function desencriptar (){
+    var textareaInput = document.getElementById ("textareaInput").value;
+    mensaje = desencriptarTexto(textareaInput);
+    document.querySelector(".textareaOutput").value = mensaje;
 }
 
-function copiar(){
-    
-    //Guarda lo que esta dentro del textarea
-    var contenido = document.querySelector("#textoDesencriptado");
-    
-    //Selecciona contenido
-    contenido.select();
-    
-    //se copia el contenido
-    document.execCommand("copy")
-
-
+function encriptarTexto(mensaje){
+    var textoEncriptado = mensaje
+    .replaceAll("e", "enter")
+    .replaceAll("i", "imes")
+    .replaceAll("o", "ober")
+    .replaceAll("a", "ai")
+    .replaceAll("u", "ufat");
+    return textoEncriptado;
 }
+
+function desencriptarTexto(mensaje){
+    var textoEncriptado = mensaje
+    .replaceAll("enter", "e")
+    .replaceAll("imes", "i")
+    .replaceAll("ober", "o")
+    .replaceAll("ai", "a")
+    .replaceAll("ufat", "u");
+    return textoEncriptado;
+}
+
+function copiar () {
+    navigator.clipboard.writeText(document.querySelector(".textareaOutput").value);
+    document.querySelector(".textareaInput").value = document.querySelector(".textareaOutput").value;
+}
+
+btnEncriptar.onclick = encriptar;
+btnDesencriptar.onclick = desencriptar;
+btnCopiar.onclick = copiar; 
